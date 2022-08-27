@@ -1,0 +1,19 @@
+{
+  "name": "@elux-admin-antd/dashboard",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "peerDependencies": {
+    "@elux-admin-antd/stage": "*",
+    "@ant-design/icons-vue": "*",
+    "@antv/g2": "*",
+    "vue-countup-v3": "*",
+    "@antv/l7plot": "*",
+    "@elux/vue-web": "*",
+    "path-to-regexp": "*",
+    "query-string": "*",
+    "dayjs": "*",
+    "ant-design-vue": "*",
+    "vue": "*",
+    "axios": "*"
+  }
+}
