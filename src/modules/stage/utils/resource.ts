@@ -25,27 +25,31 @@ export abstract class BaseResource<TDefineResource extends DefineResource, TStor
   }
 
   //提取当前路由中的本模块感兴趣的信息
-  protected getRouteParams(): TDefineResource['RouteParams'] {
-    const {pathname, searchQuery} = this.getRouter().location;
-    const [, admin = '', subModule = '', curViewStr = '', curRenderStr = '', id = ''] =
-      pathToRegexp('/:admin/:subModule/:curView/:curRender/:id?').exec(pathname) || [];
-    console.log(`resource===> ${subModule} | ${curViewStr} | ${curRenderStr}`);
-    const curView = curViewStr as TDefineResource['CurView'];
-    const curRender = curRenderStr as TDefineResource['CurRender'];
-    const prefixPathname = ['', admin, subModule].join('/');
-    const routeParams: TDefineResource['RouteParams'] = {prefixPathname, curView};
-    if (curView === 'list') {
-      routeParams.curRender = curRender || 'maintain';
-      const listQuery = this.parseListQuery(searchQuery);
-      routeParams.listSearch = mergeDefaultParams(this.defaultListSearch, listQuery);
-    } else if (curView === 'item') {
-      routeParams.curRender = curRender || 'detail';
-      routeParams.itemId = id;
-    } else if (curView == 'gateway') {
-      routeParams.curRender = curRender || 'maintain';
-    }
-    return routeParams;
-  }
+  protected abstract extraRoute() : TDefineResource['RouteParams'];
+
+  // protected getRouteParams(): TDefineResource['RouteParams'] {
+  //   const exrt = this.extraRoute();
+  //   console.log("stage 调用子类 :" + JSON.stringify(exrt));
+
+
+  //   const {pathname, searchQuery} = this.getRouter().location;
+  //   const [, admin = '', subModule = '', curViewStr = '', curRenderStr = '', id = ''] =
+  //     pathToRegexp('/:admin/:subModule/:curView/:curRender/:id?').exec(pathname) || [];
+  //   console.log(`resource===> ${subModule} | ${curViewStr} | ${curRenderStr}`);
+  //   const curView = curViewStr as TDefineResource['CurView'];
+  //   const curRender = curRenderStr as TDefineResource['CurRender'];
+  //   const prefixPathname = ['', admin, subModule].join('/');
+  //   const routeParams: TDefineResource['RouteParams'] = {prefixPathname, curView};
+  //   if (curView === 'list') {
+  //     routeParams.curRender = curRender || 'maintain';
+  //     const listQuery = this.parseListQuery(searchQuery);
+  //     routeParams.listSearch = mergeDefaultParams(this.defaultListSearch, listQuery);
+  //   } else if (curView === 'item') {
+  //     routeParams.curRender = curRender || 'detail';
+  //     routeParams.itemId = id;
+  //   }
+  //   return routeParams;
+  // }
 
   //每次路由发生变化，都会引起Model重新挂载到Store
   //在此钩子中必需完成ModuleState的初始赋值，可以异步
@@ -54,17 +58,20 @@ export abstract class BaseResource<TDefineResource extends DefineResource, TStor
   //在此钩子中也可以await子模块的mount，等所有子模块都挂载好了，一次性Render
   //也可以不做任何await，直接Render，此时需要设计Loading界面
   public onMount(env: 'init' | 'route' | 'update'): void {
-    this.routeParams = this.getRouteParams();
+    this.routeParams = this.extraRoute();
     const {prefixPathname, curView, curRender, listSearch, itemId} = this.routeParams;
     console.log(`prefixPathname= ${prefixPathname}, curView = ${curView}, curRender=${curRender} `)
     this.dispatch(
       this.privateActions._initState({
-        prefixPathname,
-        curView,
-        curRender,
-        listSearch,
-        itemId,
+        ...this.routeParams
       } as TDefineResource['ModuleState'])
+      // this.privateActions._initState({
+      //   prefixPathname,
+      //   curView,
+      //   curRender,
+      //   listSearch,
+      //   itemId,
+      // } as TDefineResource['ModuleState'])
     );
     console.log(`>>>>>>>>>onMount invoked view = ${curView} ,curRender = ${curRender} `);
     if (curView === 'list') {

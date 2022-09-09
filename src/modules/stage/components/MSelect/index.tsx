@@ -15,7 +15,7 @@ interface Props<T = Record<string, any>> {
   placeholder?: string;
   rowKey?: string;
   rowName?: string;
-  value?: string | string[];
+  value?: string | any[];
   returnArray?: boolean;
   onChange?: (value?: string | string[]) => void;
 }
@@ -38,30 +38,47 @@ const Component = defineComponent<Props>({
   emits: ['update:value'],
   setup(props, {emit}) {
     const formItemContext = Form.useInjectFormItemContext();
-    const triggerChange = (changedValue: string | string[]) => {
-      emit('update:value', changedValue);
+    const triggerChange = (changedValue: string | any[]) => {
+      const {rowKey = 'id', rowName = 'name'} = props;
+      const value = changedValue ? (typeof changedValue === 'string' ? [changedValue] : changedValue) : [];
+      const _value = value.map((item) => {
+        const [id, ...others] = item.split(',');
+        const name = others.join(',');
+        return {[rowKey]: id, [rowName]: name || id};
+      });
+      emit('update:value', _value);
       formItemContext.onFieldChange();
     };
     const selectedRows = computed(() => {
       const {value, rowKey = 'id', rowName = 'name'} = props;
       const arr = value ? (typeof value === 'string' ? [value] : value) : [];
-      return arr.map((item) => {
-        const [id, ...others] = item.split(',');
-        const name = others.join(',');
-        return {[rowKey]: id, [rowName]: name || id};
-      });
+      console.log('>>>>' + JSON.stringify(arr));
+      return arr;
+      // return arr.map((item) => {
+      //   const [id, ...others] = item.split(',');
+      //   const name = others.join(',');
+      //   return {[rowKey]: id, [rowName]: name || id};
+      // });
     });
     const removeItem = (index: number) => {
       const {rowKey = 'id', rowName = 'name', returnArray} = props;
       const rows = selectedRows.value
         .slice(0, index)
         .concat(selectedRows.value.slice(index + 1))
-        .map((row) => [row[rowKey], row[rowName]].join(','));
+        .map((row) => [{rowKey: row[rowKey], rowName: row[rowName]}]);
       triggerChange(rows.length === 1 && !returnArray ? rows[0] : rows);
     };
     const onSelectedSubmit = (selectedItems: Record<string, any>[]) => {
       const {rowKey = 'id', rowName = 'name', returnArray} = props;
+      console.log(JSON.stringify(selectedItems));
+      // const rows : any[]= selectedItems.map((item) => {
+      //   let obj = {};
+      //   obj[rowKey] = item[rowKey];
+      //   obj[rowName] = item[rowName];
+      //   return obj;
+      // });
       const rows = selectedItems.map((item) => [item[rowKey], item[rowName]].filter(Boolean).join(','));
+      console.log('选择的结果:', JSON.stringify(rows));
       triggerChange(rows.length === 1 && !returnArray ? rows[0] : rows);
     };
     const removeAll = () => {

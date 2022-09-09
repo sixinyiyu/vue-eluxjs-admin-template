@@ -1,7 +1,7 @@
 import DateTime from '@elux-admin-antd/stage/components/DateTime';
 import DialogPage from '@elux-admin-antd/stage/components/DialogPage';
 import {Link} from '@elux/vue-web';
-import {Descriptions, Skeleton} from 'ant-design-vue';
+import {Descriptions, Skeleton, Space, Tag} from 'ant-design-vue';
 import {DGender, DRole, DStatus, ItemDetail} from '../entity';
 
 const DescriptionsItem = Descriptions.Item;
@@ -17,10 +17,20 @@ const Component = ({itemDetail}: Props) => {
       <div class="g-dialog-content" style={{width: '800px', height: '300px'}}>
         {itemDetail ? (
           <Descriptions bordered column={2}>
-            <DescriptionsItem label="用户名">{itemDetail.name}</DescriptionsItem>
-            <DescriptionsItem label="呢称">{itemDetail.nickname}</DescriptionsItem>
-            <DescriptionsItem label="性别">{DGender.valueToLabel[itemDetail.gender]}</DescriptionsItem>
-            <DescriptionsItem label="角色">{DRole.valueToLabel[itemDetail.role]}</DescriptionsItem>
+            <DescriptionsItem label="账号">{itemDetail.accountNo}</DescriptionsItem>
+            <DescriptionsItem label="姓名">{itemDetail.accountName}</DescriptionsItem>
+            <DescriptionsItem label="手机">{itemDetail.mobile}</DescriptionsItem>
+            <DescriptionsItem label="区划和社区名称">{itemDetail.address}</DescriptionsItem>
+            <DescriptionsItem label="角色">{
+              <Space>
+              {
+                itemDetail.roles?.map((item) => (
+                  <Tag color="blue">{item.name}</Tag>
+                ))
+              }
+              </Space>
+            }
+            </DescriptionsItem>
             {/* <DescriptionsItem label="发布文章">
               <Link to={`/admin/article/list/index?author=${itemDetail.id}`} action="push" target="page">
                 {itemDetail.articles}
@@ -29,10 +39,10 @@ const Component = ({itemDetail}: Props) => {
             {/* <DescriptionsItem label="状态">
               <span class={`g-${itemDetail.status}`}>{DStatus.valueToLabel[itemDetail.status]}</span>
             </DescriptionsItem> */}
-            <DescriptionsItem label="Email">{itemDetail.email}</DescriptionsItem>
-            <DescriptionsItem label="注册时间">
+            <DescriptionsItem label="注册时间">{itemDetail.registerTime}</DescriptionsItem>
+            {/* <DescriptionsItem label="注册时间">
               <DateTime date={itemDetail.createdTime} />
-            </DescriptionsItem>
+            </DescriptionsItem> */}
           </Descriptions>
         ) : (
           <Skeleton active />

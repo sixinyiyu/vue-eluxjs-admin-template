@@ -1,6 +1,8 @@
 //工程配置文件，参见 https://eluxjs.com/guide/configure.html
 // eslint-disable-next-line import/no-extraneous-dependencies
 const antdVars = require('@elux-admin-antd/stage/assets/css/antd-var.json');
+const UnoCSS = require('unocss/webpack').default;
+const { presetAttributify, presetIcons, presetWind, presetUno} = require('unocss');
 // const {getLocalIP} = require('@elux/cli-utils');
 const serverPort = 4003;
 const apiHosts = {
@@ -22,6 +24,11 @@ module.exports = {
     webpackConfigTransform: (config) => {
       //此处可以自定义webpack配置
       //console.log(config.module.rules[0]);
+      config.plugins.unshift(
+        UnoCSS({
+          presets: [presetUno({})]
+        })
+      );
       return config;
     },
   },

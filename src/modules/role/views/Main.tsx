@@ -7,7 +7,6 @@ import Detail from './Detail';
 import Edit from './Edit';
 import Maintain from './Maintain';
 import Selector from './Selector';
-import Index from './Index';
 
 export interface StoreProps {
   curView?: CurView;
@@ -16,7 +15,7 @@ export interface StoreProps {
 }
 
 function mapStateToProps(appState: APPState): StoreProps {
-  const {curView, curRender, itemDetail} = appState.member!;
+  const {curView, curRender, itemDetail} = appState.role!;
   return {curView, curRender, itemDetail};
 }
 
@@ -29,7 +28,6 @@ const Component = defineComponent({
       return (
         <Switch elseView={<ErrorPage />}>
           {curView === 'list' && curRender === 'maintain' && <Maintain />}
-          {curView === 'list' && curRender === 'index' && <Index />}
           {curView === 'list' && curRender === 'selector' && <Selector />}
           {curView === 'item' && curRender === 'detail' && <Detail itemDetail={itemDetail} />}
           {curView === 'item' && curRender === 'edit' && <Edit itemDetail={itemDetail} dispatch={dispatch} />}

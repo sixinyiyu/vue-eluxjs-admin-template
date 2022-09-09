@@ -14,6 +14,7 @@ import {
 export type CurView = BaseCurView;
 export type CurRender = BaseCurRender & 'attach';
 
+
 // 列表搜索
 export interface ListSearch extends BaseListSearch {
   province?: string;

@@ -65,6 +65,8 @@ const Component = defineComponent<Props>({
       () => {
         const {limit = 0} = props.selection || {};
         const limitArr = typeof limit === 'number' ? [limit] : limit;
+        console.log(limit);
+        console.log(limitArr);
         const limitMax = limitArr[1] !== undefined ? limitArr[1] : limitArr[0];
         const limitMin = limitArr[1] !== undefined ? limitArr[0] : 0;
         return {limitMax, limitMin, limitArr};
@@ -217,6 +219,7 @@ const Component = defineComponent<Props>({
           </Dropdown>
         );
       }
+      console.log('batchMenu 是空');
       return null;
     });
 
@@ -254,14 +257,18 @@ const Component = defineComponent<Props>({
     const toggleReviewMode = () => (reviewMode.value = !reviewMode.value);
 
     const headArea = computed(() => {
-      const {commonActions} = props;
+      const {commonActions, batchActions} = props;
       const {limitMax, limitMin, limitArr} = limit;
+      console.log('headArea' + JSON.stringify(limit));
+      console.log('headArea batchMenu' + batchMenu.value);
+      console.log('headArea commonActions' + commonActions);
       if (!commonActions && !batchMenu.value && limit.limitMax < 0) {
         return;
       }
       return (
         <div class="hd">
-          {limitMax > -1 && !batchMenu.value && (
+          {limitMax > -1 && batchActions && !batchMenu.value && (
+
             <Button onClick={onSelectedSubmit} disabled={!!limitMin && selected.value.keys.length < limitMin} type="primary" icon={<CheckOutlined />}>
               提交<span class="tip">{`(可选${limitArr.map((n) => (n === 0 ? '多' : n)).join('-')}项)`}</span>
             </Button>

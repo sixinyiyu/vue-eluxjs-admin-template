@@ -1,6 +1,7 @@
 import 'ant-design-vue/dist/antd.less';
 import '../assets/css/var.less';
 import '../assets/css/global.module.less';
+import 'uno.css';
 import {DocumentHead, LoadingState, Switch, connectStore, exportView} from '@elux/vue-web';
 import {ConfigProvider} from 'ant-design-vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
@@ -41,7 +42,7 @@ const Component = defineComponent({
       const {curView, globalLoading, error, subModule} = storeProps;
       return (
         <ConfigProvider locale={zhCN}>
-          <DocumentHead title="EluxDemo" />
+          <DocumentHead title="伏羲系统" />
           <Switch elseView={<ErrorPage />}>
             {!!error && <ErrorPage message={error} />}
             {subModule === 'admin' && <Admin />}

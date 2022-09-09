@@ -47,7 +47,6 @@ const Component = defineComponent<Props>({
             onFinished: () => emit('on-finished'),
             ...((props.useEasing || true) ? { transition: TransitionPresets[props.transition || 'easeInSine'] } : {})
         });
-        console.log(outputValue.value);
     };
 
     const start = () => {

@@ -1,7 +1,8 @@
 import MTable, {MBatchActions, MColumns, MSelection} from '@elux-admin-antd/stage/components/MTable';
-import {Pagination} from 'modules/stage/utils/base';
+import {DialogPageClassname} from '@elux-admin-antd/stage/utils/const';
+import {Pagination} from '@elux-admin-antd/stage/utils/base';
 import {useSingleWindow, useTableChange, useTableSize} from '@elux-admin-antd/stage/utils/resource';
-import {LoadingState, connectStore} from '@elux/vue-web';
+import {Link, LoadingState, connectStore} from '@elux/vue-web';
 import {ColumnProps} from 'ant-design-vue/lib/table';
 import {VNode, computed, defineComponent} from 'vue';
 import {APPState} from '@/Global';
@@ -25,7 +26,7 @@ interface Props {
 }
 
 const mapStateToProps: (state: APPState) => StoreProps = (state) => {
-  const {listSearch, list, pagination, listLoading} = state.declare!;
+  const {listSearch, list, pagination, listLoading} = state.role!;
   return {listSearch, list, pagination, listLoading};
 };
 
@@ -40,49 +41,41 @@ const Component = defineComponent<Props>({
       const {actionColumns, mergeColumns} = props;
       const cols: MColumns<ListItem>[] = [
         {
-          title: '社区名称',
-          dataIndex: 'community',
-          width: '160px',
-          fixed: 'left',
+          title: '编号',
+          dataIndex: 'id',
+          width: '10%',
+          customRender: ({value, record}: {value: string; record: {id: string}}) => (
+            <Link to={`/admin/role/item/detail/${record.id}`} action="push" target={singleWindow} cname={DialogPageClassname}>
+              {value}
+            </Link>
+          ),
         },
         {
-          title: '省份',
-          dataIndex: 'province',
-          width: '120px',
+          title: '名称',
+          dataIndex: 'name',
+          width: '15%',
         },
         {
-          title: '地市',
-          dataIndex: 'city',
-          width: '110px',
+          title: '描述',
+          dataIndex: 'desc',
+          width: '25%',
         },
         {
-          title: '区县',
-          dataIndex: 'country',
-          width: '120px',
-        },
-        {
-          title: '状态',
-          dataIndex: 'status',
+          title: '用户数',
+          dataIndex: 'userCount',
           width: '100px',
+          customRender: ({value, record}: {value: string; record: {id: string}}) => (
+            <Link to={`/admin/member/list/index?roleId=${record.id}`} action="push" target={singleWindow} cname={DialogPageClassname}>
+              {value}
+            </Link>
+          ),
         },
         {
-          title: '申报年度',
-          dataIndex: 'year',
-          width: '200px',
-        },
-        {
-          title: '考核文件',
-          dataIndex: 'attach',
-          width: '240px',
-        },
-        {
-          title: '接收时间',
-          dataIndex: 'receiveTime',
-          width: '200px',
-          timestamp: true,
+          title: '创建时间',
+          dataIndex: 'createTime',
+          width: '160px',
         },
       ];
-
       if (actionColumns) {
         cols.push(actionColumns);
       }
@@ -106,7 +99,6 @@ const Component = defineComponent<Props>({
           commonActions={commonActions}
           batchActions={batchActions}
           onChange={onTableChange}
-          scroll={{ x: 1300}}
           selectedRows={selectedRows}
           columns={columns.value}
           listSearch={listSearch}

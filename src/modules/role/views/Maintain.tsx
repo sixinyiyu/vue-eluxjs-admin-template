@@ -17,11 +17,11 @@ interface StoreProps {
 }
 
 const mapStateToProps: (state: APPState) => StoreProps = (state) => {
-  const {prefixPathname, curRender, listSearch} = state.member!;
+  const {prefixPathname, curRender, listSearch} = state.role!;
   return {prefixPathname, curRender, listSearch};
 };
 
-const {member: memberActions} = GetActions('member');
+const {role: memberActions} = GetActions('role');
 
 const Component = defineComponent({
   setup() {
@@ -36,8 +36,8 @@ const Component = defineComponent({
     const batchActions: MBatchActions = {
       actions: [
         {key: 'delete', label: '批量删除', confirm: true},
-        // {key: 'enable', label: '批量启用', confirm: true},
-        // {key: 'disable', label: '批量禁用', confirm: true},
+        {key: 'enable', label: '批量启用', confirm: true},
+        {key: 'disable', label: '批量禁用', confirm: true},
       ],
       handler: (item: {key: string}, ids: (string | number)[]) => {
         if (item.key === 'delete') {
@@ -58,10 +58,6 @@ const Component = defineComponent({
         return (
           <div class="g-table-actions">
             <a onClick={() => onShowDetail(value)}>详细</a>
-            {/* <a onClick={() => onShowDetail(value)}>分配角色</a> */}
-            {/* <a onClick={() => alterItems(value, {status: record.status === Status.启用 ? Status.禁用 : Status.启用})}>
-              {record.status === Status.启用 ? '禁用' : '启用'}
-            </a> */}
             <a onClick={() => onShowEditor(value, updateItem)}>修改</a>
             <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => deleteItems(value)}>
               <a>删除</a>
@@ -75,7 +71,7 @@ const Component = defineComponent({
       const {prefixPathname, curRender, listSearch} = storeProps;
       return (
         <div class="g-page-content">
-          <DocumentHead title="用户管理" />
+          <DocumentHead title="角色管理" />
           <div>
             <SearchForm listSearch={listSearch} listPathname={`${prefixPathname}/list/${curRender}`} />
             <ListTable

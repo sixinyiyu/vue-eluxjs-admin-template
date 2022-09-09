@@ -30,7 +30,6 @@ const Component = defineComponent({
       return (
         <Switch elseView={<ErrorPage />}>
           {curView === 'list' && curRender === 'maintain' && <Maintain />}
-          {curView === 'gateway' && curRender === 'maintain' && <Gatway />}
           {curView === 'list' && curRender === 'index' && <Index />}
           {curView === 'item' && curRender === 'detail' && <Detail itemDetail={itemDetail} />}
           {curView === 'item' && curRender === 'edit' && <Edit itemDetail={itemDetail} dispatch={dispatch} />}

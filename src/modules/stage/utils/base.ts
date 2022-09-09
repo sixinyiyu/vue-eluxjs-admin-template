@@ -5,7 +5,7 @@ export interface IRequest<Req, Res> {
   Response: Res;
 }
 
-export type BaseCurView = 'list' | 'item' | 'gateway' | 'declare';
+export type BaseCurView = 'list' | 'item';
 export type BaseCurRender = 'maintain' | 'index' | 'selector' | 'edit' | 'detail';
 
 // 搜索

@@ -4,7 +4,7 @@ import {IAlterItems, ICreateItem, IDeleteItems, IGetItem, IGetList, IUpdateItem}
 
 export class API implements BaseApi {
   public getList(params: IGetList['Request']): Promise<IGetList['Response']> {
-    return request.get<IGetList['Response']>('/api/member/search', {params}).then((res) => {
+    return request.get<IGetList['Response']>('/api/role/search', {params}).then((res) => {
       return res.data;
     });
   }
@@ -13,7 +13,7 @@ export class API implements BaseApi {
     if (!params.id) {
       return Promise.resolve({} as any);
     }
-    return request.get<IGetItem['Response']>(`/api/member/${params.id}`).then((res) => {
+    return request.get<IGetItem['Response']>(`/api/role/${params.id}`).then((res) => {
       return res.data;
     });
   }
@@ -28,7 +28,7 @@ export class API implements BaseApi {
 
   public updateItem(params: IUpdateItem['Request']): Promise<IUpdateItem['Response']> {
     const {id, data} = params;
-    return request.put<void>(`/api/member/${id}`, data).then((res) => {
+    return request.put<void>(`/api/role`, data).then((res) => {
       return res.data;
     });
   }
@@ -36,13 +36,13 @@ export class API implements BaseApi {
   public deleteItems(params: IDeleteItems['Request']): Promise<IDeleteItems['Response']> {
     const {id} = params;
     const ids = typeof id === 'string' ? [id] : id;
-    return request.delete<void>(`/api/member/${ids.join(',')}`).then((res) => {
+    return request.delete<void>(`/api/role`, {data: ids}).then((res) => {
       return res.data;
     });
   }
 
   public createItem(params: ICreateItem['Request']): Promise<ICreateItem['Response']> {
-    return request.post<{id: string}>(`/api/member`, params).then((res) => {
+    return request.post<{id: string}>(`/api/role`, params).then((res) => {
       return res.data;
     });
   }

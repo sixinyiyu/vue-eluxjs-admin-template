@@ -3,11 +3,11 @@ import {DialogPageClassname} from '@elux-admin-antd/stage/utils/const';
 import {Pagination} from '@elux-admin-antd/stage/utils/base';
 import {useSingleWindow, useTableChange, useTableSize} from '@elux-admin-antd/stage/utils/resource';
 import {Link, LoadingState, connectStore} from '@elux/vue-web';
-import {Tooltip} from 'ant-design-vue';
+import {Tag, Tooltip, Space} from 'ant-design-vue';
 import {ColumnProps} from 'ant-design-vue/lib/table';
 import {VNode, computed, defineComponent} from 'vue';
 import {APPState} from '@/Global';
-import {DGender, DRole, DStatus, ListItem, ListSearch, defaultListSearch} from '../entity';
+import {DGender, DRole, DStatus, ListItem, ListSearch, defaultListSearch, RoleDTO} from '../entity';
 
 interface StoreProps {
   listSearch: ListSearch;
@@ -43,9 +43,8 @@ const Component = defineComponent<Props>({
       const cols: MColumns<ListItem>[] = [
         {
           title: '账号',
-          dataIndex: 'name',
-          width: '10%',
-          sorter: true,
+          dataIndex: 'accountNo',
+          width: '6%',
           customRender: ({value, record}: {value: string; record: {id: string}}) => (
             <Link to={`/admin/member/item/detail/${record.id}`} action="push" target={singleWindow} cname={DialogPageClassname}>
               {value}
@@ -54,27 +53,19 @@ const Component = defineComponent<Props>({
         },
         {
           title: '姓名',
-          dataIndex: 'nickname',
+          dataIndex: 'accountName',
           width: '10%',
         },
         {
           title: '手机',
-          dataIndex: 'role',
+          dataIndex: 'mobile',
           width: '10%',
-          customRender: ({value}: {value: string}) => DRole.valueToLabel[value],
-        },
-        {
-          title: '身份证',
-          dataIndex: 'gender',
-          align: 'center',
-          width: '100px',
-          customRender: ({value}: {value: string}) => DGender.valueToLabel[value],
         },
         {
           title: '地区或社区名称',
-          dataIndex: 'articles',
+          dataIndex: 'address',
           align: 'center',
-          sorter: true,
+          // sorter: true,
           width: '120px',
           customRender: ({value, record}: {value: string; record: {id: string}}) => (
             <Link to={`/admin/article/list/index?author=${record.id}`} action="push" target={singleWindow} cname={DialogPageClassname}>
@@ -83,10 +74,19 @@ const Component = defineComponent<Props>({
           ),
         },
         {
-          title: '状态',
-          dataIndex: 'status',
+          title: '角色',
+          dataIndex: 'roles',
           width: '100px',
-          customRender: ({value}: {value: string}) => <span class={`g-${value}`}>{DStatus.valueToLabel[value]}</span>,
+          ellipsis: true,
+          customRender: ({value}: {value: RoleDTO[]}) => (
+            <Space>
+            {
+              value.map((item) => (
+                <Tag color="blue">{item.name}</Tag>
+              ))
+            }
+            </Space>
+          ),
         },
       ];
       if (actionColumns) {

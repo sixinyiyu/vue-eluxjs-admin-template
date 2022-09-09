@@ -69,10 +69,10 @@ const Component = ({itemDetail}: Props) => {
       },
       customRender: ({value, record}: {value: string; record: {id: string}}) => (
         // <Space>
-        //   <TypographyText>{value}</TypographyText>
-          <Link to={`/admin/member/item/detail/${record.id}`} action="push" target={singleWindow} cname={DialogPageClassname}>
-            {value}
-          </Link>
+          <TypographyText>{value}</TypographyText>
+          // <Link to={`/admin/member/item/detail/${record.id}`} action="push" target={singleWindow} cname={DialogPageClassname}>
+          //   {value}
+          // </Link>
         // </Space>
       ),
     },
@@ -114,27 +114,8 @@ const Component = ({itemDetail}: Props) => {
       <div class="g-dialog-content" >
         {itemDetail ? (
           <div>
-          <Descriptions bordered column={2}>
-            <DescriptionsItem label="社区名称">河南省郑州市郑东新区祭城街道正光街社区</DescriptionsItem>
-            <DescriptionsItem label="区划代码">河南省郑州市郑东新区祭城街道正光街社区</DescriptionsItem>
 
-            <DescriptionsItem label="城镇人口（万人）">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
-            <DescriptionsItem label="农村人口（万人）">河南省郑州市郑东新区祭城街道正光街社区</DescriptionsItem>
-
-            <DescriptionsItem label="总人口（万人）">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
-            <DescriptionsItem label="总面积（平方米）">河南省郑州市郑东新区祭城街道正光街社区</DescriptionsItem>
-
-            <DescriptionsItem label="经 办 人">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
-            <DescriptionsItem label="经办人电话">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
-
-            <DescriptionsItem label="负 责 人">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
-            <DescriptionsItem label="负责人电话">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
-
-            <DescriptionsItem label="详细地址">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
-
-          </Descriptions>
-
-          <Steps current={2}>
+            <Steps current={2} style={{paddingBottom: '30px'}}>
                 <Step title="已上报" sub-title="袁家惠" description="2022-07-14 15:00:00" />
                 <Step title="县考核" sub-title="陈国平" description="2022-07-16 16:00:00" />
                 <Step title="市考核" description="2022-07-24 15:00:00" />
@@ -143,71 +124,92 @@ const Component = ({itemDetail}: Props) => {
                 <Step title="已公示" description="" />
             </Steps>
 
-          <TypographyTitle level={5}>基础信息</TypographyTitle>
+            <TypographyTitle level={5}>基础信息</TypographyTitle>
 
-          <Card bordered={false}>
-            Inner Card content
-          </Card>
+            <Card bordered={false}>
+              <Descriptions bordered column={2}>
+                <DescriptionsItem label="社区名称">河南省郑州市郑东新区祭城街道正光街社区</DescriptionsItem>
+                <DescriptionsItem label="区划代码">河南省郑州市郑东新区祭城街道正光街社区</DescriptionsItem>
 
-          <TypographyTitle level={5}>附件信息</TypographyTitle>
+                <DescriptionsItem label="城镇人口（万人）">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
+                <DescriptionsItem label="农村人口（万人）">河南省郑州市郑东新区祭城街道正光街社区</DescriptionsItem>
 
-          <Card bordered={false}>
-              <Row gutter={{xs: 8, sm: 16, md: 24}}>
-                <Col>
-                  <Link to={`/admin/article/list/index?author=${itemDetail.id}`} action="push" target="page">
-                  全国综合减灾示范社区申报表---郑东新区祭城路街道办事处正光街社区.pdf
-                  </Link>
-                </Col>
-                <Col>
-                <Tooltip title={"下载"}>
-                  <DownloadOutlined/>
-                </Tooltip>
-                </Col>
-              </Row>
-              <Row style={{paddingTop: '10px'}}>
-                <Link to={`/admin/article/list/index?author=${itemDetail.id}`} action="push" target="page">全国综合减灾示范社区申报表---郑东新区祭城路街道办事处正光街社区.doc</Link>
-              </Row>
-          </Card>
+                <DescriptionsItem label="总人口（万人）">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
+                <DescriptionsItem label="总面积（平方米）">河南省郑州市郑东新区祭城街道正光街社区</DescriptionsItem>
 
-          <TypographyTitle level={4}>示范社区基本条件申报</TypographyTitle>
+                <DescriptionsItem label="经 办 人">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
+                <DescriptionsItem label="经办人电话">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
 
-          <Table pagination={false} rowKey={record => record.key} columns={qualificationColumns} data-source={qualificationData} bordered/>
+                <DescriptionsItem label="负 责 人">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
+                <DescriptionsItem label="负责人电话">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
 
-          <TypographyTitle level={4}>示范社区基本条件申报</TypographyTitle>
+                <DescriptionsItem label="详细地址">河南省,郑州市,金水区,郑东新区祭城路街道正光路与众旺路交叉口东北角向东50米路北</DescriptionsItem>
 
-          <Table pagination={false} rowKey={record => record.content.id} columns={factorColumns} data-source={factorData} bordered>
-          </Table>
-
-          {/** 审核历史 */}
-
-          <Collapse activeKey={['1','2']}>
-            <CollapsePanel key="1" header="市级考核">
-                <Descriptions labelStyle={{fontWeight: 800, background: '#fafafa'}} title={"考核记录"} column={2}>
-                <DescriptionsItem label="考核意见">通过</DescriptionsItem>
-                <DescriptionsItem label="请示文件">郑东新区减灾委员会办公室关于申请国家级综合减灾示范社区的请示.pdf </DescriptionsItem>
-                <DescriptionsItem label="经办人">袁家惠</DescriptionsItem>
-                <DescriptionsItem label="经办人电话">
-                17839165821
-                </DescriptionsItem>
-                <DescriptionsItem label="考核时间">2022-05-03 07:33:15</DescriptionsItem>
-                <DescriptionsItem label="考核内容">成果报告、成果图片、成果视频三大要素均需完成填报</DescriptionsItem>
               </Descriptions>
-            </CollapsePanel>
-            <CollapsePanel key="2" header="县级考核">
-                <Descriptions labelStyle={{fontWeight: 800, background: '#fafafa'}} title={"考核记录"} column={2}>
-                <DescriptionsItem label="考核意见">退回</DescriptionsItem>
-                <DescriptionsItem label="请示文件">郑减办文〔2021〕14号 郑州市减灾委员会办公室关于申报2021年度全国综合减灾示范社区的报告.pdf</DescriptionsItem>
-                <DescriptionsItem label="经办人">陈国平</DescriptionsItem>
-                <DescriptionsItem label="经办人电话">
-                67170005
-                </DescriptionsItem>
-                <DescriptionsItem label="考核时间">2022-05-03 07:33:15</DescriptionsItem>
-                <DescriptionsItem label="考核内容">成果报告、成果图片、成果视频三大要素均需完成填报</DescriptionsItem>
-              </Descriptions>
-            </CollapsePanel>
-          </Collapse>
+            </Card>
 
+            <TypographyTitle level={5}>附件信息</TypographyTitle>
 
+            <Card bordered={false}>
+                <Row gutter={{xs: 8, sm: 16, md: 24}}>
+                  <Col>
+                    <Link to={`/admin/article/list/index?author=${itemDetail.id}`} action="push" target="page">
+                    全国综合减灾示范社区申报表---郑东新区祭城路街道办事处正光街社区.pdf
+                    </Link>
+                  </Col>
+                  <Col>
+                  <Tooltip title={"下载"}>
+                    <DownloadOutlined/>
+                  </Tooltip>
+                  </Col>
+                </Row>
+                <Row style={{paddingTop: '10px'}}>
+                  <Link to={`/admin/article/list/index?author=${itemDetail.id}`} action="push" target="page">全国综合减灾示范社区申报表---郑东新区祭城路街道办事处正光街社区.doc</Link>
+                </Row>
+            </Card>
+
+            <Space size="middle" direction="vertical">
+
+            <TypographyTitle level={4}>示范社区基本条件申报</TypographyTitle>
+
+            <Table pagination={false} rowKey={record => record.key} columns={qualificationColumns} data-source={qualificationData} bordered/>
+
+            <TypographyTitle level={4}>示范社区基本条件申报</TypographyTitle>
+
+            <Table pagination={false} rowKey={record => record.content.id} columns={factorColumns} data-source={factorData} bordered>
+            </Table>
+
+            {/** 审核历史 */}
+            <TypographyTitle level={4}>审核历史</TypographyTitle>
+
+            <Collapse activeKey={['1','2']}>
+              <CollapsePanel key="1" header="市级考核">
+                  <Descriptions labelStyle={{fontWeight: 800, background: '#fafafa'}} title={"考核记录"} column={2}>
+                  <DescriptionsItem label="考核意见">通过</DescriptionsItem>
+                  <DescriptionsItem label="请示文件">郑东新区减灾委员会办公室关于申请国家级综合减灾示范社区的请示.pdf </DescriptionsItem>
+                  <DescriptionsItem label="经办人">袁家惠</DescriptionsItem>
+                  <DescriptionsItem label="经办人电话">
+                  17839165821
+                  </DescriptionsItem>
+                  <DescriptionsItem label="考核时间">2022-05-03 07:33:15</DescriptionsItem>
+                  <DescriptionsItem label="考核内容">成果报告、成果图片、成果视频三大要素均需完成填报</DescriptionsItem>
+                </Descriptions>
+              </CollapsePanel>
+              <CollapsePanel key="2" header="县级考核">
+                  <Descriptions labelStyle={{fontWeight: 800, background: '#fafafa'}} title={"考核记录"} column={2}>
+                  <DescriptionsItem label="考核意见">退回</DescriptionsItem>
+                  <DescriptionsItem label="请示文件">郑减办文〔2021〕14号 郑州市减灾委员会办公室关于申报2021年度全国综合减灾示范社区的报告.pdf</DescriptionsItem>
+                  <DescriptionsItem label="经办人">陈国平</DescriptionsItem>
+                  <DescriptionsItem label="经办人电话">
+                  67170005
+                  </DescriptionsItem>
+                  <DescriptionsItem label="考核时间">2022-05-03 07:33:15</DescriptionsItem>
+                  <DescriptionsItem label="考核内容">成果报告、成果图片、成果视频三大要素均需完成填报</DescriptionsItem>
+                </Descriptions>
+              </CollapsePanel>
+            </Collapse>
+
+          </Space>
 
           </div>
         ) : (

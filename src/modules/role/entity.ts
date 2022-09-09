@@ -12,13 +12,6 @@ import {
   enumOptions,
 } from '@elux-admin-antd/stage/utils/base';
 
-export enum Gender {
-  '男' = 'male',
-  '女' = 'female',
-  '未知' = 'unknow',
-}
-
-export const DGender = enumOptions(Gender);
 
 export enum Status {
   '启用' = 'enable',
@@ -26,13 +19,6 @@ export enum Status {
 }
 export const DStatus = enumOptions(Status);
 
-export enum Role {
-  '普通用户' = 'consumer',
-  '管理员' = 'admin',
-  '责任编辑' = 'editor',
-}
-
-export const DRole = enumOptions(Role);
 
 export type CurView = BaseCurView;
 export type CurRender = BaseCurRender;
@@ -43,30 +29,18 @@ export type LocationState = BaseLocationState<ListItem>;
 
 export interface ListSearch extends BaseListSearch {
   name?: string;
-  nickname?: string;
-  email?: string;
-  role?: Role;
-  status?: Status;
-  user?: string;
 }
 
 export interface ListItem extends BaseListItem {
-  accountNo: string;
-  mobile: string;
-  accountName: string;
-  address: string;
-  roles?: RoleDTO[];
-  createdTime: number;
-}
-
-export interface RoleDTO extends BaseListItem {
   name: string;
+  desc: string;
+  userCount: number;
+  createTime: string;
 }
 
-export interface ItemDetail extends ListItem {
-  registerTime: string;
-}
-export type UpdateItem = Omit<ItemDetail, 'id' | 'createdTime' | 'registerTime'>;
+export interface ItemDetail extends ListItem {}
+
+export type UpdateItem = Omit<ItemDetail, 'id' | 'createTime' | 'userCount'>;
 
 export type ListSearchFormData = Omit<ListSearch, keyof BaseListSearch>;
 

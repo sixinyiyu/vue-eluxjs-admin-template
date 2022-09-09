@@ -3,6 +3,7 @@ import {IRequest} from '@elux-admin-antd/stage/utils/base';
 export enum SubModule {
   'dashboard' = 'dashboard',
   'member' = 'member',
+  'role' = 'role',
   'article' = 'article',
   'declare' = 'declare',
 }

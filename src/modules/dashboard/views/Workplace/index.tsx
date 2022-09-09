@@ -8,6 +8,7 @@ import styles from './index.module.less';
 import {MoneyCollectOutlined, } from '@ant-design/icons-vue';
 import { Card, Row, Col, Space, } from 'ant-design-vue';
 import { defineComponent, onMounted, ref } from 'vue';
+import GradientBg from '@elux-admin-antd/stage/components/Gradient/GradientBg';
 
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -193,20 +194,36 @@ const Component = defineComponent({
           <DocumentHead title="我的工作台" />
           <Row gutter={24}>
             <Col xs={12} md={12} sm={12} lg={6}>
-              <div class="card-item card-item-one">
+              <GradientBg class="card-item"  start-color={"#5171fd"} end-color={"#c97afd"} >
                 <div class="card-title">
                   <Space size={8}> <MoneyCollectOutlined style={{fontSize: '24px'}}/> 总销售额 </Space>
                 </div>
                 <div class="all-count">
-                  ¥ <CountTo autoplay={true} startValue={0} endValue={551245} duration={5}/>
+                  ¥ <CountTo autoplay={true} startValue={0} endValue={7245} duration={5}/>
                   <span class="suffix">万</span>
                 </div>
-              </div>
+              </GradientBg>
             </Col>
-            </Row>
+
+            <Col xs={12} md={12} sm={12} lg={6}>
+              <GradientBg start-color={"#865ec0"} end-color={"#5144b4"} class="card-item">
+                <div class="card-title">
+                  <Space size={8}> <MoneyCollectOutlined style={{fontSize: '24px'}}/> 总销售额 </Space>
+                </div>
+                <div class="all-count">
+                  ¥ <CountTo autoplay={true} startValue={0} endValue={1245} duration={5}/>
+                  <span class="suffix">万</span>
+                </div>
+              </GradientBg>
+            </Col>
+          </Row>
 
             <Card bordered={false} title="示范社区统计">
-              <div  style="position: relative; width: 100%; height: 100vh;" id="areaChoropleth"></div>
+              <Row>
+                <Col span="20" style="padding: 10px 20px; box-sizing: border-box; border-radius: 6px; box-shadow: 3px 5px 15px rgba(40, 40, 40, 0.36);">
+                  <div  style="position: relative; width: 100%; height: 100vh;" id="areaChoropleth"></div>
+                </Col>
+              </Row>
             </Card>
 
             <Card bordered={false} title="示范社区排行TOP10">

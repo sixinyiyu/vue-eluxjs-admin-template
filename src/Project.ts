@@ -13,6 +13,7 @@ export const ModuleGetter = {
   admin: () => import('@elux-admin-antd/admin'),
   dashboard: () => import('@elux-admin-antd/dashboard'),
   member: () => import('@elux-admin-antd/member'),
+  role: () => import('@elux-admin-antd/role'),
   article: () => import('@elux-admin-antd/article'),
   declare: () => import('@elux-admin-antd/declare'),
 };

@@ -1,11 +1,18 @@
 import {BaseResource} from '@elux-admin-antd/stage/utils/resource';
 import {pathToRegexp} from 'path-to-regexp';
 import api from './api';
-import {ArticleResource, defaultListSearch} from './entity';
+import {ArticleResource, defaultListSearch, RouteParams} from './entity';
 
 export class Model extends BaseResource<ArticleResource> {
   protected api = api;
   protected defaultListSearch = defaultListSearch;
+
+
+  protected extraRoute(): RouteParams {
+    console.log('article 模块 extraRoute invoked');
+    const routeParams: RouteParams  = {prefixPathname: 'article', curView: 'list'};
+    return routeParams;
+  }
 
   public onMount(env: 'init' | 'route' | 'update'): void {
     console.warn('article---onMount --> invoked');

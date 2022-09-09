@@ -148,6 +148,8 @@ export class Model extends BaseModel<ModuleState, APPState> {
 
   private matchMenu({matchToKey, keyToParents}: MenuData): {selected: string[]; open: string[]} {
     const pathname = this.getRouter().location.pathname;
+    console.log('matchMenu ---->' + pathname);
+    // 要想菜单高亮 必须 match是link的开头
     for (const rule in matchToKey) {
       if (pathname.startsWith(rule)) {
         const selected = matchToKey[rule];

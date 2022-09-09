@@ -1,13 +1,18 @@
-import {useShowDetail} from '@elux-admin-antd/stage/utils/resource';
+import {useAlter, useShowDetail} from '@elux-admin-antd/stage/utils/resource';
 import {DocumentHead, connectStore, Dispatch, ModuleState} from '@elux/vue-web';
 import {Tree, InputSearch, Row, Col, Form, Button, Input, RadioGroup, Radio} from 'ant-design-vue';
 import type { TreeProps } from 'ant-design-vue';
 import {defineComponent, onMounted, PropType, ref, reactive} from 'vue';
 import {APPState, GetActions, Modules} from '@/Global';
-import {DeclareResource, ListSearch, Region} from '../entity';
+import {DeclareResource, ListItem, ListSearch, Region} from '../entity';
 import api from '../api';
 import { DataNode } from 'ant-design-vue/lib/tree';
 import { Rule } from 'ant-design-vue/lib/form';
+import SearchForm from './SearchForm';
+import ListTable from './ListTable';
+import { PlusOutlined } from '@ant-design/icons-vue';
+import { MBatchActions } from 'modules/stage/components/MTable';
+import { ColumnProps } from 'ant-design-vue/lib/table';
 
 
 interface RegionCreateRequest {
@@ -28,6 +33,9 @@ const mapStateToProps: (state: APPState) => StoreProps = (state) => {
   return {prefixPathname, curRender, listSearch };
 };
 
+const {declare: declareActions} = GetActions('declare');
+
+
 const Component = defineComponent({
   props: {
     dispatch: {
@@ -37,85 +45,42 @@ const Component = defineComponent({
   },
   setup(props) {
     const storeProps = connectStore(mapStateToProps);
+    const {selectedRows, deleteItems, alterItems, updateItem} = useAlter<ListItem>(storeProps, declareActions);
     const {onShowDetail, onShowEditor} = useShowDetail(storeProps);
-    const searchValue = ref<string>('');
-    const expandedKeys = ref<string[]>([]);
-    const selectedKeys = ref<string[]>([]);
-    //TreeProps['treeData']
-    const treeData = ref<Region[]>([]);
-    const loadData : TreeProps['loadData'] = async (treeNode) => {
-        if (treeNode.child && treeNode.child.length > 0) {
-            return;
-        }
-        const data = await api.fetchRegionByParentCode(treeNode.code);
-        if (data && data.length > 0) {
-            treeNode.dataRef && (treeNode.dataRef.child = data as any);
-            treeData.value = [...treeData.value]
-        }
-    };
-    const onSearch = (searchValue: string) => {
+    const commActions = (
+      <Button type="primary" icon={<PlusOutlined />} onClick={() => onShowEditor('', updateItem)}>
+        新建
+      </Button>
+    );
 
+    const actionColumns: ColumnProps<ListItem> = {
+      title: '操作',
+      dataIndex: 'id',
+      width: '100px',
+      align: 'center',
+      fixed: 'right',
+      customRender: ({value, record}) => {
+        return (
+          <div class="g-table-actions">
+            <a onClick={() => onShowDetail(value)}>详细</a>
+          </div>
+        );
+      },
     };
-    onMounted(() => {
-        api.fetchProvinces().then(provinces => treeData.value = provinces)
-    });
-    const onSubmit = (event: MouseEvent) => {
 
-    };
-    const reginFrom = reactive<RegionCreateRequest>({
-        parentCode: '',
-        code: '',
-        value: '',
-        regionType: '',
-    });
     return () => {
       const {prefixPathname, curRender, listSearch} = storeProps;
       return (
         <div class="g-page-content">
-            <DocumentHead title="用户管理" />
+            <DocumentHead title="考核列表" />
             <div>
-                <Row>
-                    <Col flex={2}>
-                        <InputSearch v-model:value={searchValue.value} onSearch={onSearch} style={{marginBottom: '8px', width: '200px'}} placeholder="请输入关键字进行过滤" />
-                        <Tree
-                            // autoExpandParent={true}
-                            fieldNames={{children:'child', title:'value', key:'code' }}
-                            v-model:expandedKeys={expandedKeys.value}
-                            v-model:selectedKeys={selectedKeys.value}
-                            load-data={loadData}
-                            tree-data={treeData.value}
-                        />
-                    </Col>
-                    <Col flex={3}>
-                        <Form style={{paddingTop: '120px'}} model={reginFrom} labelCol={{ style: { width: '150px' } }} wrapperCol={{ span: 14 }}>
-                            <Form.Item label="父级地区" rules={[{ required: true, message: '请选择父区域' }]}>
-                                <Input v-model:value={reginFrom.parentCode} />
-                            </Form.Item>
-
-                            <Form.Item label="地区编码" rules={[{ required: true, message: '请输入地区编码' }]}>
-                                <Input v-model:value={reginFrom.code} />
-                            </Form.Item>
-
-                            <Form.Item label="地区名称" rules={[{ required: true, message: '请输入地区名称' }]}>
-                                <Input v-model:value={reginFrom.value}/>
-                            </Form.Item>
-
-                            <Form.Item label="地区类型"  rules={[{ required: true, message: '请选择地区类型' }]}>
-                                <RadioGroup v-model:value={reginFrom.regionType}>
-                                    <Radio value="1">省级</Radio>
-                                    <Radio value="2">地市</Radio>
-                                    <Radio value="3">区县</Radio>
-                                    <Radio value="4">村/街道</Radio>
-                                    <Radio value="5">乡/社区</Radio>
-                                </RadioGroup>
-                            </Form.Item>
-
-                            <Form.Item wrapperCol={{ span: 14, offset: 8 }}>
-                                <Button type="primary" onClick={onSubmit}>确认修改</Button>
-                            </Form.Item>
-                        </Form>
-                    </Col>
-                </Row>
+                <SearchForm listSearch={listSearch} listPathname={`${prefixPathname}/list/${curRender}`} />
+                <ListTable
+                // commonActions={commActions}
+                actionColumns={actionColumns}
+                selectedRows={selectedRows.value}
+                listPathname={`${prefixPathname}/list/${curRender}`}
+                />
             </div>
         </div>
       );

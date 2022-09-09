@@ -1,4 +1,4 @@
-import {DashboardOutlined, InsuranceOutlined, ProfileOutlined, SecurityScanOutlined, SettingOutlined, TeamOutlined} from '@ant-design/icons-vue';
+import {DashboardOutlined, UserOutlined ,InsuranceOutlined, ProfileOutlined, SecurityScanOutlined, SettingOutlined, TeamOutlined} from '@ant-design/icons-vue';
 import {CurUser} from '@elux-admin-antd/stage/entity';
 import {connectStore} from '@elux/vue-web';
 import {Menu} from 'ant-design-vue';
@@ -11,9 +11,10 @@ export type Key = string | number;
 
 const ICONS: {[key: string]: any} = {
   dashboard: <DashboardOutlined />,
-  user: <TeamOutlined />,
+  user: <UserOutlined />,
   post: <ProfileOutlined />,
   setting: <SettingOutlined />,
+  role: <TeamOutlined/>,
   gateway: <SecurityScanOutlined />,
   schema: <InsuranceOutlined />,
 };
